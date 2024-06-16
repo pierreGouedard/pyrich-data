@@ -21,9 +21,6 @@ def init_api_client(
         logger=logger
     )
     # connect to RR socket, login
-
-    import IPython
-    IPython.embed()
     login_response = client.execute(loginCommand(
         userId=connect_kwargs['USER_ID'], password=connect_kwargs['PASSWORD'],
     ))
