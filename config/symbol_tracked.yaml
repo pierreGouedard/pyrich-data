@@ -1,0 +1,425 @@
+
+index:
+  - symbol: FRA40
+    class: CFD
+    desc: 'Instrument CFD which price is based on quotations of the futures contract for CAC 40 index.'
+  - symbol: USFANG
+    class: CFD
+    desc: 'Contract for index reflecting a highly traded American technology stocks quoted on organized market.'
+  - symbol: US100
+    class: CFD
+    desc: 'Instrument CFD which price is based on quotations of the futures contract for NASDAQ 100 index.'
+  - symbol: UK100
+    class: CFD
+    desc: 'Instrument CFD which price is based on quotations of the futures contract for FTSE 100 index.'
+  - symbol: JP225
+    class: CFD
+    desc: 'Instrument CFD which price is based on quotations of the futures contract for NIKKEI 225 index quoted on CME.'
+  - symbol: EU50
+    class: CFD
+    desc: 'Instrument CFD which price is based on quotations of the futures contract for EURO STOXX 50 index.'
+  - symbol: DE40
+    class: CFD
+    desc: 'Instrument CFD which price is based on quotations of the futures contract for DAX index.'
+  - symbol: VIET30
+    class: CFD
+    desc: 'Instrument CFD which price is based on quotations of the futures contract for VN30 index.'
+  - symbol: CHNComp
+    class: CFD
+    desc: 'Instrument CFD which price is based on quotations of the futures contract for HSCEI index.'
+  - symbol: SUI20
+    class: CFD
+    desc: 'Instrument CFD which price is based on quotations of the futures contract for SMI index.'
+
+stock:
+    ALV.DE_9:
+        class: Stock
+        desc: Allianz SE
+    ALV.DE_4:
+        class: CFD
+        desc: Allianz SE
+    MSFT.US_9:
+        class: Stock
+        desc: Microsoft Corp
+    MSFT.US_4:
+        class: CFD
+        desc: Microsoft Corp
+    MC.FR_9:
+        class: Stock
+        desc: LVMH Moet Hennessy Louis Vuitton SE
+    MC.FR_4:
+        class: CFD
+        desc: LVMH Moet Hennessy Louis Vuitton SE
+    BA.UK_9:
+        class: Stock
+        desc: BAE Systems PLC
+    BA.UK_4:
+        class: CFD
+        desc: BAE Systems PLC
+    AI.FR_9:
+        class: Stock
+        desc: Air Liquide SA
+    AI.FR_4:
+        class: CFD
+        desc: Air Liquide SA
+    PG.US_9:
+        class: Stock
+        desc: Procter & Gamble Co
+    PG.US_4:
+        class: CFD
+        desc: Procter & Gamble Co
+    BAYN.DE_9:
+        class: Stock
+        desc: Bayer AG
+    BAYN.DE_4:
+        class: CFD
+        desc: Bayer AG
+    TTWO.US_9:
+        class: Stock
+        desc: Take-Two Interactive Software Inc
+    TTWO.US_4:
+        class: CFD
+        desc: Take-Two Interactive Software Inc
+    AMAT.US_9:
+        class: Stock
+        desc: Applied Materials Inc
+    AMAT.US_4:
+        class: CFD
+        desc: Applied Materials Inc
+    GOOGL.US_9:
+        class: Stock
+        desc: Alphabet Inc - class A
+    GOOGL.US_4:
+        class: CFD
+        desc: Alphabet Inc - class A
+    BNR.DE_9:
+        class: Stock
+        desc: Brenntag AG
+    BNR.DE_4:
+        class: CFD
+        desc: Brenntag AG
+    ENGI.FR_9:
+        class: Stock
+        desc: Engie SA
+    ENGI.FR_4:
+        class: CFD
+        desc: Engie SA
+    ASML.US_9:
+        class: Stock
+        desc: ASML Holding NV - ADR
+    ASML.US_4:
+        class: CFD
+        desc: ASML Holding NV - ADR
+    ADBE.US_9:
+        class: Stock
+        desc: Adobe Systems Inc
+    ADBE.US_4:
+        class: CFD
+        desc: Adobe Systems Inc
+    HEI.DE_9:
+        class: Stock
+        desc: HeidelbergCement AG
+    HEI.DE_4:
+        class: CFD
+        desc: HeidelbergCement AG
+    AZN.US_9:
+        class: Stock
+        desc: AstraZeneca PLC - ADR
+    AZN.US_4:
+        class: CFD
+        desc: AstraZeneca PLC - ADR
+    AIR.DE_9:
+        class: Stock
+        desc: Airbus SE
+    AIR.DE_4:
+        class: CFD
+        desc: Airbus SE
+    PFE.US_9:
+        class: Stock
+        desc: Pfizer Inc
+    PFE.US_4:
+        class: CFD
+        desc: Pfizer Inc
+    NVDA.US_9:
+        class: Stock
+        desc: NVIDIA Corp
+    NVDA.US_4:
+        class: CFD
+        desc: NVIDIA Corp
+    HD.US_9:
+        class: Stock
+        desc: Home Depot Inc
+    HD.US_4:
+        class: CFD
+        desc: Home Depot Inc
+    HO.FR_9:
+        class: Stock
+        desc: Thales SA
+    HO.FR_4:
+        class: CFD
+        desc: Thales SA
+    BAS.DE_9:
+        class: Stock
+        desc: BASF SE
+    BAS.DE_4:
+        class: CFD
+        desc: BASF SE
+    BAC.US_9:
+        class: Stock
+        desc: Bank of America Corp
+    BAC.US_4:
+        class: CFD
+        desc: Bank of America Corp
+    JPM.US_9:
+        class: Stock
+        desc: JPMorgan Chase & Co
+    JPM.US_4:
+        class: CFD
+        desc: JPMorgan Chase & Co
+    PEP.US_9:
+        class: Stock
+        desc: PepsiCo Inc
+    PEP.US_4:
+        class: CFD
+        desc: PepsiCo Inc
+    DBK.DE_9:
+        class: Stock
+        desc: Deutsche Bank AG
+    DBK.DE_4:
+        class: CFD
+        desc: Deutsche Bank AG
+    BIIB.US_9:
+        class: Stock
+        desc: Biogen Inc
+    BIIB.US_4:
+        class: CFD
+        desc: Biogen Inc
+    OR.FR_9:
+        class: Stock
+        desc: L'Oreal SA
+    OR.FR_4:
+        class: CFD
+        desc: L'Oreal SA
+    XOM.US_9:
+        class: Stock
+        desc: Exxon Mobil Corp
+    XOM.US_4:
+        class: CFD
+        desc: Exxon Mobil Corp
+    BMW.DE_9:
+        class: Stock
+        desc: Bayerische Motoren Werke AG
+    BMW.DE_4:
+        class: CFD
+        desc: Bayerische Motoren Werke AG
+    META.US_9:
+        class: Stock
+        desc: Meta Platforms Inc - class A
+    META.US_4:
+        class: CFD
+        desc: Meta Platforms Inc - class A
+    LIN.US_9:
+        class: Stock
+        desc: Linde PLC
+    LIN.US_4:
+        class: CFD
+        desc: Linde PLC
+    RI.FR_9:
+        class: Stock
+        desc: Pernod Ricard SA
+    RI.FR_4:
+        class: CFD
+        desc: Pernod Ricard SA
+    DIS.US_9:
+        class: Stock
+        desc: Walt Disney Co
+    DIS.US_4:
+        class: CFD
+        desc: Walt Disney Co
+    JNJ.US_9:
+        class: Stock
+        desc: Johnson & Johnson
+    JNJ.US_4:
+        class: CFD
+        desc: Johnson & Johnson
+    TTE.FR_9:
+        class: Stock
+        desc: TotalEnergies SE
+    TTE.FR_4:
+        class: CFD
+        desc: TotalEnergies SE
+    AMD.US_9:
+        class: Stock
+        desc: Advanced Micro Devices Inc
+    AMD.US_4:
+        class: CFD
+        desc: Advanced Micro Devices Inc
+    PDD.US_9:
+        class: Stock
+        desc: Pinduoduo Inc - ADR
+    PDD.US_4:
+        class: CFD
+        desc: Pinduoduo Inc - ADR
+    RR.UK_9:
+        class: Stock
+        desc: Rolls-Royce Holdings PLC
+    RR.UK_4:
+        class: CFD
+        desc: Rolls-Royce Holdings PLC
+    AAPL.US_9:
+        class: Stock
+        desc: Apple Inc
+    AAPL.US_4:
+        class: CFD
+        desc: Apple Inc
+    TMUS.US_9:
+        class: Stock
+        desc: T-Mobile US Inc
+    TMUS.US_4:
+        class: CFD
+        desc: T-Mobile US Inc
+    TXN.US_9:
+        class: Stock
+        desc: Texas Instruments Inc
+    TXN.US_4:
+        class: CFD
+        desc: Texas Instruments Inc
+    ULVR.UK_9:
+        class: Stock
+        desc: Unilever PLC
+    ULVR.UK_4:
+        class: CFD
+        desc: Unilever PLC
+    SHEL.UK_9:
+        class: Stock
+        desc: Shell PLC
+    SHEL.UK_4:
+        class: CFD
+        desc: Shell PLC
+    EA.US_9:
+        class: Stock
+        desc: Electronic Arts Inc
+    EA.US_4:
+        class: CFD
+        desc: Electronic Arts Inc
+    QCOM.US_9:
+        class: Stock
+        desc: QUALCOMM Inc
+    QCOM.US_4:
+        class: CFD
+        desc: QUALCOMM Inc
+    AIR.FR_9:
+        class: Stock
+        desc: Airbus SE
+    AIR.FR_4:
+        class: CFD
+        desc: Airbus SE
+    AZN.UK_9:
+        class: Stock
+        desc: AstraZeneca PLC
+    AZN.UK_4:
+        class: CFD
+        desc: AstraZeneca PLC
+    CSCO.US_9:
+        class: Stock
+        desc: Cisco Systems Inc
+    CSCO.US_4:
+        class: CFD
+        desc: Cisco Systems Inc
+    AMZN.US_9:
+        class: Stock
+        desc: Amazon.com Inc
+    AMZN.US_4:
+        class: CFD
+        desc: Amazon.com Inc
+    V.US_9:
+        class: Stock
+        desc: Visa INC - class A
+    V.US_4:
+        class: CFD
+        desc: Visa INC - class A
+    GE.US_9:
+        class: Stock
+        desc: General Electric Co
+    GE.US_4:
+        class: CFD
+        desc: General Electric Co
+    MCD.US_9:
+        class: Stock
+        desc: McDonald's Corp
+    MCD.US_4:
+        class: CFD
+        desc: McDonald's Corp
+    MDB.US_9:
+        class: Stock
+        desc: MongoDB Inc - class A
+    MDB.US_4:
+        class: CFD
+        desc: MongoDB Inc - class A
+    TSLA.US_9:
+        class: Stock
+        desc: Tesla Inc
+    TSLA.US_4:
+        class: CFD
+        desc: Tesla Inc
+    SAF.FR_9:
+        class: Stock
+        desc: Safran SA
+    SAF.FR_4:
+        class: CFD
+        desc: Safran SA
+
+forex:
+  - symbol: GBPJPY
+    class: CFD
+    desc: 'British Pound to Japanese Yen'
+  - symbol: EURCHF
+    class: CFD
+    desc: 'Euro to Swiss Frank'
+  - symbol: EURGBP
+    class: CFD
+    desc: 'Euro to British Pound'
+  - symbol: EURUSD
+    class: CFD
+    desc: 'Euro to American Dollar'
+
+crypto:
+  - symbol: ETHEREUM
+    class: CFD
+    desc: 'Ethereum crypto'
+  - symbol: BITCOIN
+    class: CFD
+    desc: 'Bitcoin crypto'
+  - symbol: DOGECOIN
+    class: CFD
+    desc: 'Dogecoin crypto'
+  - symbol: FTX
+    class: CFD
+    desc: 'FTX crypto'
+
+
+commodities:
+  - symbol: GOLD
+    class: CFD
+    desc: 'Instument CFD which price is based on quotations of Gold (precious metals).'
+  - symbol: CORN
+    class: CFD
+    desc: 'Instument CFD which price is based on quotations of Corn (agriculture).'
+  - symbol: ZINC
+    class: CFD
+    desc: 'Instument CFD which price is based on quotations of Zinc (industrial metal).'
+  - symbol: NICKEL
+    class: CFD
+    desc: 'Instument CFD which price is based on quotations of Nickel (industrial metal).'
+  - symbol: GASOLINE
+    class: CFD
+    desc: 'Instument CFD which price is based on quotations of Nickel (Energy).'
+  - symbol: ALUMINIUM
+    class: CFD
+    desc: 'Instument CFD which price is based on quotations of Nickel (industrial metal).'
+
+
+
+
+
+
