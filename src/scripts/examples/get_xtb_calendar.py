@@ -10,7 +10,7 @@ project_path = Path(__file__).parents[3]
 sys.path.append(project_path.as_posix())
 
 # Local import
-from src.core.xApi_utils import init_api_client, get_calendar_data
+from src.core.xapi_utils import init_api_client, get_calendar_data
 
 
 if __name__ == '__main__':

@@ -12,8 +12,8 @@ project_path = Path(__file__).parents[3]
 sys.path.append(project_path.as_posix())
 
 # Local import
-from src.core.xApi_core import APIClient
-from src.core.xApi_utils import init_api_client
+from src.core.xapi_core import APIClient
+from src.core.xapi_utils import init_api_client
 
 
 def get_news_data(

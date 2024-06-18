@@ -338,9 +338,6 @@ stock:
   - symbol: GE.US_9
     class: Stock
     desc: General Electric Co
-  - symbol: GE.US_4
-    class: CFD
-    desc: General Electric Co
   - symbol: MCD.US_9
     class: Stock
     desc: McDonald's Corp

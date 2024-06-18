@@ -11,7 +11,7 @@ project_path = Path(__file__).parents[3]
 sys.path.append(project_path.as_posix())
 
 # Local import
-from src.core.xApi_utils import init_api_client, d_period_mapping, get_historical_data
+from src.core.xapi_utils import init_api_client, d_period_mapping, get_historical_data
 
 
 if __name__ == '__main__':

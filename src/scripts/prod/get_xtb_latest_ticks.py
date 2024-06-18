@@ -12,8 +12,8 @@ project_path = Path(__file__).parents[3]
 sys.path.append(project_path.as_posix())
 
 # Local import
-from src.core.xApi_utils import init_api_client, get_latest_ticks
-from src.core.xtbdata_utils import merge_tick_data
+from src.core.xapi_utils import init_api_client, get_latest_ticks
+from src.core.xdata_utils import merge_tick_data
 
 
 if __name__ == '__main__':
@@ -30,7 +30,7 @@ if __name__ == '__main__':
     # Load list of symbols that needs to be tracked
     d_symbols = yaml.safe_load((project_path / 'config' / 'symbol_tracked.yaml').open('r'))
     d_symbols['stock'] = [d for d in d_symbols['stock'] if d['class'] == stock_class]
-    l_symbols = [d['symbol'] for cat, l_symbols in d_symbols.items() for d in l_symbols][:3]
+    l_symbols = [d['symbol'] for cat, l_symbols in d_symbols.items() for d in l_symbols]
 
     # Load backup config
     backup_period = yaml.safe_load((project_path / 'config' / 'backup.yaml').open('r'))['ticks']
@@ -56,6 +56,9 @@ if __name__ == '__main__':
 
     # Get ticks for all symbols
     df_ticks = get_latest_ticks(l_symbols, level, start_datetime, client, logger)
+
+    if df_ticks is None:
+        logger.error('df_ticks')
     client.disconnect()
 
     # Load existing history dataframe, merge new history

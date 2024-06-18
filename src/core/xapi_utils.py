@@ -5,7 +5,7 @@ import logging
 import pandas as pd
 
 # Local import
-from src.core.xApi_core import APIClient, loginCommand
+from src.core.xapi_core import APIClient, loginCommand
 
 
 d_period_mapping = {
@@ -160,9 +160,7 @@ def get_calendar_data(
 
         # Log success
         start, end = df_data.timestamp.min().date(), df_data.timestamp.max().date(),
-        logger.info(f"""
-        Successfully fetch calendar data covering {start} - {end})
-        """)
+        logger.info(f"""Successfully fetch calendar data covering {start} - {end})""")
 
         return df_data, start, end
 

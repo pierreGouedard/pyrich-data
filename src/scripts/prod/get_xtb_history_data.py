@@ -4,8 +4,6 @@ import yaml
 import logging
 import sys
 import os
-
-import yaml
 from dotenv import load_dotenv
 
 import pandas as pd
@@ -14,9 +12,8 @@ project_path = Path(__file__).parents[3]
 sys.path.append(project_path.as_posix())
 
 # Local import
-from src.core.xApi_utils import init_api_client, get_historical_data
-from src.core.xtbdata_utils import merge_historical_data
-
+from src.core.xapi_utils import init_api_client, get_historical_data
+from src.core.xdata_utils import merge_historical_data
 
 if __name__ == '__main__':
     # Get paths
@@ -94,4 +91,3 @@ if __name__ == '__main__':
     else:
 
         df_all_history.to_csv(history_path / 'history.csv', index=False)
-
