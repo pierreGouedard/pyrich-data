@@ -48,7 +48,6 @@ def get_latest_ticks(
 
     # get data from server
     resp = client.commandExecute('getTickPrices', arguments=args)
-
     # Format data if any
     if resp['status']:
         l_expected_cols = [
@@ -72,7 +71,8 @@ def get_latest_ticks(
         return df_data
 
     # Log failure
-    logger.warning(f"error during history download: {resp}")
+    logger.error(f"error during tick download: {resp}")
+    raise ValueError(f"error during tick download: {resp}")
 
 
 def get_historical_data(
@@ -119,8 +119,9 @@ def get_historical_data(
 
         return df_data
 
-    # Loag failure
+    # Log failure & raise
     logger.warning(f"error during history download: {resp}")
+    raise ValueError(f"error during history download: {resp}")
 
 
 def get_profit(
@@ -164,3 +165,7 @@ def get_calendar_data(
         """)
 
         return df_data, start, end
+
+    # Log failure & raise
+    logger.warning(f"error during calendar download: {resp}")
+    raise ValueError(f"error during calendar download: {resp}")
