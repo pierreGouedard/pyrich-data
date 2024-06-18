@@ -387,9 +387,6 @@ crypto:
   - symbol: DOGECOIN
     class: CFD
     desc: 'Dogecoin crypto'
-  - symbol: FTX
-    class: CFD
-    desc: 'FTX crypto'
 
 
 commodities:
