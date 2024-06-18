@@ -8,7 +8,7 @@ import os
 import pandas as pd
 from dotenv import load_dotenv
 
-project_path = Path(__file__).parents[2]
+project_path = Path(__file__).parents[3]
 sys.path.append(project_path.as_posix())
 
 # Local import
@@ -47,7 +47,7 @@ def get_news_data(
 if __name__ == '__main__':
     # Get paths
     data_path = project_path / "data"
-    output_path = data_path / 'xtb' / 'news'
+    output_path = data_path / 'xtb' / 'examples' / 'news'
 
     # Parameters
     env_filename = '.env'

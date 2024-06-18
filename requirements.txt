@@ -1,5 +1,6 @@
 # DevOps
 python-dotenv==1.0.1
+PyYAML==6.0.1
 
 # Data
 pandas==2.2.2

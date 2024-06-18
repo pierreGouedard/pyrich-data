@@ -7,44 +7,33 @@ import os
 import pandas as pd
 from dotenv import load_dotenv
 
-project_path = Path(__file__).parents[2]
+project_path = Path(__file__).parents[3]
 sys.path.append(project_path.as_posix())
 
 # Local import
-from src.core.xApi_core import APIClient
-from src.core.xApi_utils import init_api_client
-
-
-def get_and_format_symbols(client: APIClient, output_path: Path, logger: logging.Logger) -> None:
-
-    # second method of invoking commands
-    resp = client.commandExecute('getAllSymbols')
-
-    if not resp['status']:
-        print('getAllSymbols command failed. Error code: {0}'.format(resp['errorCode']))
-        return
-
-    # Format & save Symbols
-    df_symbols = pd.DataFrame(resp['returnData'])
-    df_symbols.to_csv(output_path)
+from src.core.xApi_utils import init_api_client, get_latest_ticks
 
 
 if __name__ == '__main__':
     # Get paths
-    data_path = project_path / "data" / "xtb" / 'utils'
+    data_path = project_path / "data"
+    output_path = data_path / 'xtb' / 'examples' / 'ticks'
 
     # Parameters
     env_filename = '.env'
-    symbol = ''
+    symbols = ['AI.FR_9', 'BAYN.DE_9']
+    level = 0
+    start_datetime: pd.Timestamp = (pd.Timestamp.utcnow() - pd.Timedelta(minutes=1))
 
     # Load env
-    dotenv_path = project_path/ env_filename
+    dotenv_path = project_path / env_filename
     load_dotenv(dotenv_path)
 
     # logger properties
     logger = logging.getLogger("jsonSocket")
     FORMAT = '[%(asctime)-15s][%(funcName)s:%(lineno)d] %(message)s'
     logging.basicConfig(format=FORMAT)
+    logger.setLevel(logging.INFO)
 
     # Create & connect to RR socket
     client, ssid = init_api_client(
@@ -56,5 +45,13 @@ if __name__ == '__main__':
     )
 
     # Get and save all sympbols
-    get_and_format_symbols(client, data_path / 'xtb_symbols.csv', logger)
+    df_data = get_latest_ticks(symbols, level, start_datetime, client, logger)
+
+    if df_data is not None and not df_data.empty:
+        end_date = df_data.timestamp.dt.date.max()
+        df_data.to_csv(
+            output_path / f'latest_from_{start_datetime}.csv', index=False
+        )
+
+
     client.disconnect()

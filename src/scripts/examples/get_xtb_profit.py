@@ -4,42 +4,16 @@ import logging
 import sys
 import os
 
-import pandas as pd
 from dotenv import load_dotenv
 
-project_path = Path(__file__).parents[4]
+project_path = Path(__file__).parents[3]
 sys.path.append(project_path.as_posix())
 
 # Local import
-from src.core.xApi_core import APIClient
-from src.core.xApi_utils import init_api_client
-
-
-def get_profit(
-        client: APIClient, logger: logging.Logger
-) -> pd.DataFrame:
-
-    # Pandas timestmanp are seconds UNIX timestamp, API is milliseconds UNIX timestamp, hence factor 1e3 in "start"
-    args = {
-        "closePrice": 1.1000,
-        "cmd": 1,
-        "openPrice": 1.2233,
-        "symbol": "EURPLN",
-        "volume": 20.0
-    }
-
-    # get data from server
-    resp = client.commandExecute('getProfitCalculation', arguments=args)
-
-    # Format data if any
-    if resp['status']:
-        return
+from src.core.xApi_utils import init_api_client, get_profit
 
 
 if __name__ == '__main__':
-    # Get paths
-    data_path = project_path / "data"
-    output_path = data_path / 'xtb' / 'ticks'
 
     # Parameters
     env_filename = '.env'
@@ -69,5 +43,5 @@ if __name__ == '__main__':
     )
 
     # Get and save all sympbols
-    df_data = get_profit(client, logger)
+    get_profit(client, logger)
     client.disconnect()

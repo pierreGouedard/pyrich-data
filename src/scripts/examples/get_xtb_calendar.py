@@ -1,51 +1,22 @@
 # Global import
-from typing import Any, Tuple
 from pathlib import Path
-import argparse
 import logging
 import sys
 import os
 
-import pandas as pd
 from dotenv import load_dotenv
 
-project_path = Path(__file__).parents[2]
+project_path = Path(__file__).parents[3]
 sys.path.append(project_path.as_posix())
 
 # Local import
-from src.core.xApi_core import APIClient
-from src.core.xApi_utils import init_api_client
-
-
-def get_calendar_data(
-        client: APIClient, logger: logging.Logger
-) -> Tuple[pd.DataFrame, Any, Any]:
-
-    resp = client.commandExecute('getCalendar')
-    if resp['status']:
-        df_data = (
-            pd.DataFrame(resp['returnData'])
-            .assign(
-                timestamp=lambda x: pd.to_datetime(x.time, unit='ms', origin='unix'),
-
-            )
-            .sort_values(by='timestamp')
-            .loc[:, ['timestamp', 'title', 'current', 'previous', 'forecast', 'impact', 'period']]
-        )
-
-        # Log success
-        start, end = df_data.timestamp.min().date(), df_data.timestamp.max().date(),
-        logger.info(f"""
-        Successfully fetch calendar data covering {start} - {end})
-        """)
-
-        return df_data, start, end
+from src.core.xApi_utils import init_api_client, get_calendar_data
 
 
 if __name__ == '__main__':
     # Get paths
     data_path = project_path / "data"
-    output_path = data_path / 'xtb' / 'events'
+    output_path = data_path / 'xtb' / 'examples' / 'events'
 
     # Parameters
     env_filename = '.env'
