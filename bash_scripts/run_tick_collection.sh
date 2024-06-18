@@ -1,0 +1,1 @@
+conda activate pyrich-env & python src/scripts/prod/get_xtb_latest_ticks.py
