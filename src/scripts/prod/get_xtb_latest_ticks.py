@@ -1,6 +1,5 @@
 # Global import
 from pathlib import Path
-import logging
 import yaml
 import sys
 import os
@@ -14,17 +13,19 @@ sys.path.append(project_path.as_posix())
 # Local import
 from src.core.xapi_utils import init_api_client, get_latest_ticks
 from src.core.xdata_utils import merge_tick_data
+from src.core.dev_utils import set_up_logger
 
 
 if __name__ == '__main__':
     # Get paths
     data_path = project_path / "data"
+    log_dir = project_path / 'logs'
     tick_path = data_path / 'xtb' / 'ticks'
 
     # Parameters
     env_filename = '.env'
     level = 0
-    start_datetime = (pd.Timestamp.utcnow() - pd.Timedelta(minutes=1))
+    start_datetime = (pd.Timestamp.utcnow() - pd.Timedelta(minutes=2))
     stock_class = 'CFD'
 
     # Load list of symbols that needs to be tracked
@@ -39,11 +40,8 @@ if __name__ == '__main__':
     dotenv_path = project_path / env_filename
     load_dotenv(dotenv_path)
 
-    # logger properties
-    logger = logging.getLogger("jsonSocket")
-    FORMAT = '[%(asctime)-15s][%(funcName)s:%(lineno)d] %(message)s'
-    logging.basicConfig(format=FORMAT)
-    logger.setLevel(logging.INFO)
+    # Set up logger
+    logger = set_up_logger('latest_tick_collection', log_dir)
 
     # Create & connect to RR socket
     client, ssid = init_api_client(

@@ -1,7 +1,6 @@
 # Global import
 from pathlib import Path
 import yaml
-import logging
 import sys
 import os
 from dotenv import load_dotenv
@@ -14,10 +13,13 @@ sys.path.append(project_path.as_posix())
 # Local import
 from src.core.xapi_utils import init_api_client, get_historical_data
 from src.core.xdata_utils import merge_historical_data
+from src.core.dev_utils import set_up_logger
+
 
 if __name__ == '__main__':
     # Get paths
     data_path = project_path / "data"
+    log_dir = project_path / 'logs'
     history_path = data_path / 'xtb' / 'history'
 
     # Parameters
@@ -38,11 +40,8 @@ if __name__ == '__main__':
     dotenv_path = project_path / env_filename
     load_dotenv(dotenv_path)
 
-    # logger properties
-    logger = logging.getLogger("jsonSocket")
-    FORMAT = '[%(asctime)-15s][%(funcName)s:%(lineno)d] %(message)s'
-    logging.basicConfig(format=FORMAT)
-    logger.setLevel(logging.INFO)
+    # Set up logger
+    logger = set_up_logger('history_collection', log_dir)
 
     # Create & connect to RR socket
     client, ssid = init_api_client(

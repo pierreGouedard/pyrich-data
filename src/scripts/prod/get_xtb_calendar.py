@@ -1,6 +1,5 @@
 # Global import
 from pathlib import Path
-import logging
 import sys
 import yaml
 import os
@@ -14,11 +13,13 @@ sys.path.append(project_path.as_posix())
 # Local import
 from src.core.xapi_utils import init_api_client, get_calendar_data
 from src.core.xdata_utils import merge_calendar_data
+from src.core.dev_utils import set_up_logger
 
 
 if __name__ == '__main__':
     # Get paths
     data_path = project_path / "data"
+    log_dir = project_path / 'logs'
     calendar_path = data_path / 'xtb' / 'events'
 
     # Parameters
@@ -32,10 +33,7 @@ if __name__ == '__main__':
     load_dotenv(dotenv_path)
 
     # logger properties
-    logger = logging.getLogger("jsonSocket")
-    FORMAT = '[%(asctime)-15s][%(funcName)s:%(lineno)d] %(message)s'
-    logging.basicConfig(format=FORMAT)
-    logger.setLevel(logging.INFO)
+    logger = set_up_logger('event_collection', log_dir)
 
     # Create & connect to RR socket
     client, ssid = init_api_client(
