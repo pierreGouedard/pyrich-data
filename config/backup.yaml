@@ -1,6 +1,6 @@
 events:
-  days: 60
+  days: 30
 history:
-  days: 30
+  days: 15
 ticks:
-  days: 30
+  days: 15

@@ -25,7 +25,7 @@ if __name__ == '__main__':
     # Parameters
     env_filename = '.env'
     period = 1
-    start_date: pd.Timestamp = (pd.Timestamp.utcnow() - pd.Timedelta(days=20)).floor('D')
+    start_date: pd.Timestamp = (pd.Timestamp.utcnow() - pd.Timedelta(days=8)).floor('D')
     stock_class = 'CFD'
 
     # Load list of symbols that needs to be tracked
