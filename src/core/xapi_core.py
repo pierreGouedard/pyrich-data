@@ -4,6 +4,8 @@ import time
 import ssl
 from threading import Thread
 
+context = ssl.create_default_context()
+
 # API inter-command timeout (in ms)
 API_SEND_TIMEOUT = 100
 
@@ -18,23 +20,25 @@ class TransactionSide(object):
     SELL_LIMIT = 3
     BUY_STOP = 4
     SELL_STOP = 5
-    
+
+
 class TransactionType(object):
     ORDER_OPEN = 0
     ORDER_CLOSE = 2
     ORDER_MODIFY = 3
     ORDER_DELETE = 4
 
+
 class JsonSocket(object):
 
-    def __init__(self, address, port, logger, encrypt=False):
-        self._ssl = encrypt 
-        if self._ssl != True:
-            self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        else:
-            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.socket = ssl.wrap_socket(sock)
+    def __init__(self, address, port, logger):
 
+        # Set up socket
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.context = ssl.create_default_context()
+        self.socket = self.context.wrap_socket(sock, server_hostname=address)
+
+        # set other properties
         self.logger = logger
         self.conn = self.socket
         self._timeout = None
@@ -121,21 +125,15 @@ class JsonSocket(object):
     def _set_port(self, port):
         pass
 
-    def _get_encrypt(self):
-        return self._ssl
-
-    def _set_encrypt(self, encrypt):
-        pass
 
     timeout = property(_get_timeout, _set_timeout, doc='Get/set the socket timeout')
     address = property(_get_address, _set_address, doc='read only property socket address')
     port = property(_get_port, _set_port, doc='read only property socket port')
-    encrypt = property(_get_encrypt, _set_encrypt, doc='read only property socket port')
-    
+
     
 class APIClient(JsonSocket):
-    def __init__(self, address, port, logger, encrypt=True):
-        super(APIClient, self).__init__(address, port, logger, encrypt)
+    def __init__(self, address, port, logger):
+        super(APIClient, self).__init__(address, port, logger)
         if not self.connect():
             raise Exception(
                 "Cannot connect to " + address + ":" + str(port) +
@@ -155,9 +153,9 @@ class APIClient(JsonSocket):
 
 class APIStreamClient(JsonSocket):
     def __init__(
-            self, address, port, logger, encrypt=True, ssId=None
+            self, address, port, logger, ssId=None
     ):
-        super(APIStreamClient, self).__init__(address, port, logger, encrypt)
+        super(APIStreamClient, self).__init__(address, port, logger)
         self._ssId = ssId
         
         if not self.connect():
