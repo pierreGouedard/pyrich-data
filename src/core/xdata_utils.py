@@ -21,7 +21,7 @@ def merge_calendar_data(
     # Keep last version of each unique events
     df_all_events = (
         pd.concat([
-            df_events.assign(created=pd.Timestamp.utcnow()),
+            df_events.assign(created=pd.Timestamp.utcnow()).dropna(subset=TICK_UNIQUE),
             df_events.assign(created=pd.Timestamp.utcnow() - pd.Timedelta(minutes=10)),
         ])
         .sort_values(by=list(CALENDAR_UNIQUE) + ['created'])
@@ -39,7 +39,7 @@ def merge_historical_data(df_history: pd.DataFrame, df_prev_history: Optional[pd
     # Keep most recent version of duplicated history point
     df_all_history = (
         pd.concat([
-            df_history.assign(created=pd.Timestamp.utcnow()),
+            df_history.assign(created=pd.Timestamp.utcnow()).dropna(subset=TICK_UNIQUE),
             df_prev_history.assign(created=pd.Timestamp.utcnow() - pd.Timedelta(minutes=10)),
         ])
         .sort_values(by=list(HISTORY_UNIQUE) + ['created'])
@@ -57,7 +57,7 @@ def merge_tick_data(df_ticks: pd.DataFrame, df_prev_ticks: Optional[pd.DataFrame
     # Keep most recent version of duplicated ticks
     df_all_ticks = (
         pd.concat([
-            df_ticks.assign(created=pd.Timestamp.utcnow()),
+            df_ticks.assign(created=pd.Timestamp.utcnow()).dropna(subset=TICK_UNIQUE),
             df_prev_ticks.assign(created=pd.Timestamp.utcnow() - pd.Timedelta(minutes=10)),
         ])
         .sort_values(by=list(TICK_UNIQUE) + ['created'])

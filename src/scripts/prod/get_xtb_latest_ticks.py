@@ -63,7 +63,7 @@ if __name__ == '__main__':
     if (tick_path / 'ticks.csv').exists():
         df_prev_ticks = (
             pd.read_csv(tick_path / 'ticks.csv')
-            .assign(timestamp=lambda x: pd.to_datetime(x.timestamp))
+            .assign(timestamp=lambda x: pd.to_datetime(x.timestamp, errors='coerce'))
         )
     else:
         df_prev_ticks = None

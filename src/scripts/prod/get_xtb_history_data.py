@@ -75,7 +75,7 @@ if __name__ == '__main__':
     if (history_path / 'history.csv').exists():
         df_prev_history = (
             pd.read_csv(history_path / 'history.csv')
-            .assign(timestamp=lambda x: pd.to_datetime(x.timestamp))
+            .assign(timestamp=lambda x: pd.to_datetime(x.timestamp, errors='coerce'))
         )
     else:
         df_prev_history = None
