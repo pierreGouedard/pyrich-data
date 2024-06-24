@@ -1,79 +1,68 @@
 # Global import
 from pathlib import Path
-import yaml
 import sys
 import os
-
 import pandas as pd
-from dotenv import load_dotenv
 
 project_path = Path(__file__).parents[3]
 sys.path.append(project_path.as_posix())
 
 # Local import
-from src.core.xapi_utils import init_api_client, get_latest_ticks
-from src.core.xdata_utils import merge_tick_data
-from src.core.dev_utils import set_up_logger
+from src.core.xdata_utils import merge_tick_data, merge_historical_data, merge_calendar_data
 
 
 if __name__ == '__main__':
     # Get paths
-    data_path = project_path / "data"
-    log_dir = project_path / 'logs'
-    tick_path = data_path / 'xtb' / 'ticks'
+    consolidated_data_path = project_path / "data" / "xtb" / "consolidated_data"
 
-    # Parameters
-    env_filename = '.env'
-    level = 0
-    start_datetime = (pd.Timestamp.utcnow() - pd.Timedelta(minutes=2))
-    stock_class = 'CFD'
+    # Get ticks freqhly download if exists
 
-    # Load list of symbols that needs to be tracked
-    d_symbols = yaml.safe_load((project_path / 'config' / 'symbol_tracked.yaml').open('r'))
-    d_symbols['stock'] = [d for d in d_symbols['stock'] if d['class'] == stock_class]
-    l_symbols = [d['symbol'] for cat, l_symbols in d_symbols.items() for d in l_symbols]
+    # Compute consolidated ticks
+    pth_tmp_ticks = consolidated_data_path / 'tmp_ticks.csv'
+    pth_ticks = consolidated_data_path / 'ticks.csv'
 
-    # Load backup config
-    backup_period = yaml.safe_load((project_path / 'config' / 'backup.yaml').open('r'))['ticks']
+    df_consolidated_ticks = None
+    if pth_ticks.exists():
+        if pth_tmp_ticks.exists():
+            df_consolidated_ticks = merge_tick_data(pd.read_csv(pth_tmp_ticks), pd.read_csv(pth_ticks))
+            os.remove(pth_tmp_ticks)
+    elif pth_tmp_ticks.exists():
+        df_consolidated_ticks = pd.read_csv(pth_tmp_ticks)
+        os.remove(pth_tmp_ticks)
 
-    # Load env
-    dotenv_path = project_path / env_filename
-    load_dotenv(dotenv_path)
+    if df_consolidated_ticks is not None:
+        df_consolidated_ticks.to_csv(pth_ticks, index=False)
 
-    # Set up logger
-    logger = set_up_logger('latest_tick_collection', log_dir)
+    # Compute consolidated history
+    pth_tmp_history = consolidated_data_path / 'tmp_history.csv'
+    pth_history = consolidated_data_path / 'history.csv'
 
-    # Create & connect to RR socket
-    client, ssid = init_api_client(
-        {
-            'HOST': os.environ['HOST'], 'PORT': os.environ['PORT'],
-            'USER_ID': os.environ['USER_ID'], 'PASSWORD': os.environ['PASSWORD']
-        },
-        logger
-    )
+    df_consolidated_history = None
+    if pth_history.exists():
+        if pth_tmp_history.exists():
+            df_consolidated_history = merge_historical_data(pd.read_csv(pth_tmp_history), pd.read_csv(pth_history))
+            os.remove(pth_tmp_history)
 
-    # Get ticks for all symbols
-    df_ticks = get_latest_ticks(l_symbols, level, start_datetime, client, logger)
+    elif pth_tmp_history.exists():
+        df_consolidated_history = pd.read_csv(pth_tmp_history)
+        os.remove(pth_tmp_history)
 
-    if df_ticks is None:
-        logger.error('df_ticks')
-    client.disconnect()
+    if df_consolidated_history is not None:
+        df_consolidated_history.to_csv(pth_history, index=False)
 
-    # Load existing history dataframe, merge new history
-    if (tick_path / 'ticks.csv').exists():
-        df_prev_ticks = (
-            pd.read_csv(tick_path / 'ticks.csv')
-            .assign(timestamp=lambda x: pd.to_datetime(x.timestamp))
-        )
-    else:
-        df_prev_ticks = None
-    df_all_ticks = merge_tick_data(df_ticks, df_prev_ticks)
+    # Compute consolidated events
+    pth_tmp_event = consolidated_data_path / 'tmp_events.csv'
+    pth_event = consolidated_data_path / 'events.csv'
 
-    # if backup period is met (oldest data older than today - backup period) save a copy of file with prefix
-    # 'backup_'
-    datetime_backup_limit = pd.Timestamp.utcnow().tz_convert(None) - pd.Timedelta(**backup_period)
-    if df_all_ticks.timestamp.min() < datetime_backup_limit:
-        df_all_ticks.to_csv(tick_path / 'backup_ticks.csv', index=False)
-        os.remove(tick_path / "ticks.csv")
-    else:
-        df_all_ticks.to_csv(tick_path / 'ticks.csv', index=False)
+    df_consolidated_event = None
+    if pth_event.exists():
+        if pth_tmp_event.exists():
+            df_consolidated_event = merge_calendar_data(pd.read_csv(pth_tmp_event), pd.read_csv(pth_event))
+            os.remove(pth_tmp_event)
+
+    elif pth_tmp_event.exists():
+        df_consolidated_event = pd.read_csv(pth_tmp_event)
+        os.remove(pth_tmp_event)
+
+    if df_consolidated_event is not None:
+        df_consolidated_event.to_csv(pth_event, index=False)
