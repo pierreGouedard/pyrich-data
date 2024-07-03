@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional
 
 import pandas as pd
 
@@ -21,7 +21,7 @@ def merge_calendar_data(
     # Keep last version of each unique events
     df_all_events = (
         pd.concat([
-            df_events.assign(created=pd.Timestamp.utcnow()).dropna(subset=TICK_UNIQUE),
+            df_events.assign(created=pd.Timestamp.utcnow()).dropna(subset=CALENDAR_UNIQUE),
             df_events.assign(created=pd.Timestamp.utcnow() - pd.Timedelta(minutes=10)),
         ])
         .sort_values(by=list(CALENDAR_UNIQUE) + ['created'])

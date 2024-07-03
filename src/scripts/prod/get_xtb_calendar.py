@@ -53,16 +53,16 @@ if __name__ == '__main__':
         df_prev_events = pd.read_csv(calendar_path / 'events.csv')
     else:
         df_prev_events = None
-    df_events = merge_calendar_data(df_events, df_prev_events)
+    df_all_events = merge_calendar_data(df_events, df_prev_events)
 
-    #  if backup period is met (oldest data older than today - backup period) save a copy of file with prefix
-    #  'backup_'
-    datetime_backup_limit = pd.Timestamp.utcnow().tz_convert(None) - pd.Timedelta(**backup_period)
-    if df_events.timestamp.min() < datetime_backup_limit:
-        df_events.to_csv(calendar_path / 'backup_events.csv', index=False)
-        os.remove(calendar_path / "events.csv")
-    else:
-
-        df_events.to_csv(calendar_path / 'events.csv', index=False)
+    # if backup period is met (oldest data older than today - backup period) save a copy of file with prefix
+    # 'backup_'
+    if not df_all_events.empty:
+        datetime_backup_limit = pd.Timestamp.utcnow().tz_convert(None) - pd.Timedelta(**backup_period)
+        if df_all_events.timestamp.min() < datetime_backup_limit:
+            df_all_events.to_csv(calendar_path / 'backup_events.csv', index=False)
+            os.remove(calendar_path / "events.csv")
+        else:
+            df_all_events.to_csv(calendar_path / 'events.csv', index=False)
 
 

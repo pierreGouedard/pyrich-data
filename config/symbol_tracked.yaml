@@ -34,7 +34,7 @@ stock:
     desc: Allianz SE
   - symbol: ALV.DE_4
     class: CFD
-    desc: Allianz SE
+    desc: Allianz
   - symbol: MSFT.US_9
     class: Stock
     desc: Microsoft Corp
@@ -384,9 +384,6 @@ crypto:
   - symbol: BITCOIN
     class: CFD
     desc: 'Bitcoin crypto'
-  - symbol: DOGECOIN
-    class: CFD
-    desc: 'Dogecoin crypto'
 
 
 commodities:

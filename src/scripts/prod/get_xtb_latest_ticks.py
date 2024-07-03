@@ -71,9 +71,10 @@ if __name__ == '__main__':
 
     # if backup period is met (oldest data older than today - backup period) save a copy of file with prefix
     # 'backup_'
-    datetime_backup_limit = pd.Timestamp.utcnow().tz_convert(None) - pd.Timedelta(**backup_period)
-    if df_all_ticks.timestamp.min() < datetime_backup_limit:
-        df_all_ticks.to_csv(tick_path / 'backup_ticks.csv', index=False)
-        os.remove(tick_path / "ticks.csv")
-    else:
-        df_all_ticks.to_csv(tick_path / 'ticks.csv', index=False)
+    if not df_all_ticks.empty:
+        datetime_backup_limit = pd.Timestamp.utcnow().tz_convert(None) - pd.Timedelta(**backup_period)
+        if df_all_ticks.timestamp.min() < datetime_backup_limit:
+            df_all_ticks.to_csv(tick_path / 'backup_ticks.csv', index=False)
+            os.remove(tick_path / "ticks.csv")
+        else:
+            df_all_ticks.to_csv(tick_path / 'ticks.csv', index=False)
