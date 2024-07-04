@@ -34,7 +34,7 @@ def merge_calendar_data(
 def merge_historical_data(df_history: pd.DataFrame, df_prev_history: Optional[pd.DataFrame] = None):
     # If no prev data return current
     if df_prev_history is None:
-        return df_history
+        return df_history.drop_duplicates(subset=HISTORY_UNIQUE, keep='last')
 
     # Keep most recent version of duplicated history point
     df_all_history = (
@@ -52,7 +52,7 @@ def merge_historical_data(df_history: pd.DataFrame, df_prev_history: Optional[pd
 def merge_tick_data(df_ticks: pd.DataFrame, df_prev_ticks: Optional[pd.DataFrame] = None):
     # If no prev data return current
     if df_prev_ticks is None:
-        return df_ticks
+        return df_ticks.drop_duplicates(subset=TICK_UNIQUE, keep='last')
 
     # Keep most recent version of duplicated ticks
     df_all_ticks = (

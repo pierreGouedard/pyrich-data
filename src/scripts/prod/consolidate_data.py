@@ -11,58 +11,96 @@ sys.path.append(project_path.as_posix())
 from src.core.xdata_utils import merge_tick_data, merge_historical_data, merge_calendar_data
 
 
+def clean_tmp_dir(pth: Path, key: str):
+    for filename in os.listdir(pth):
+        if key in filename:
+            os.remove(pth / filename)
+
+
 if __name__ == '__main__':
     # Get paths
     consolidated_data_path = project_path / "data" / "xtb" / "consolidated_data"
 
-    # Get ticks freqhly download if exists
-
     # Compute consolidated ticks
-    pth_tmp_ticks = consolidated_data_path / 'tmp_ticks.csv'
+    pth_tmp_ticks = consolidated_data_path / 'tmp_ticks'
     pth_ticks = consolidated_data_path / 'ticks.csv'
 
-    df_consolidated_ticks = None
-    if pth_ticks.exists():
-        if pth_tmp_ticks.exists():
-            df_consolidated_ticks = merge_tick_data(pd.read_csv(pth_tmp_ticks), pd.read_csv(pth_ticks))
-            os.remove(pth_tmp_ticks)
-    elif pth_tmp_ticks.exists():
-        df_consolidated_ticks = pd.read_csv(pth_tmp_ticks)
-        os.remove(pth_tmp_ticks)
+    # Load all freshly downloaded ticks data
+    l_dfs = []
+    for filename in os.listdir(pth_tmp_ticks):
+        if 'ticks' not in filename:
+            continue
 
-    if df_consolidated_ticks is not None:
-        df_consolidated_ticks.to_csv(pth_ticks, index=False)
+        # Append df
+        l_dfs.append(pd.read_csv(pth_tmp_ticks / filename))
+
+    if l_dfs:
+        df_consolidated_ticks, df_tmp_ticks = None, pd.concat(l_dfs)
+        if pth_ticks.exists():
+            # Merge
+            df_consolidated_ticks = merge_tick_data(df_tmp_ticks, pd.read_csv(pth_ticks))
+        else:
+            df_consolidated_ticks = merge_tick_data(df_tmp_ticks, None)
+
+        if df_consolidated_ticks is not None:
+            df_consolidated_ticks.to_csv(pth_ticks, index=False)
+
+    # Clean tick tmp dir
+    clean_tmp_dir(pth_tmp_ticks, 'ticks')
+    print('************ ticks data consolidated *****************')
 
     # Compute consolidated history
-    pth_tmp_history = consolidated_data_path / 'tmp_history.csv'
+    pth_tmp_history = consolidated_data_path / 'tmp_history'
     pth_history = consolidated_data_path / 'history.csv'
 
-    df_consolidated_history = None
-    if pth_history.exists():
-        if pth_tmp_history.exists():
-            df_consolidated_history = merge_historical_data(pd.read_csv(pth_tmp_history), pd.read_csv(pth_history))
-            os.remove(pth_tmp_history)
+    # Load all freshly downloaded history data
+    l_dfs = []
+    for filename in os.listdir(pth_tmp_history):
+        if 'history' not in filename:
+            continue
 
-    elif pth_tmp_history.exists():
-        df_consolidated_history = pd.read_csv(pth_tmp_history)
-        os.remove(pth_tmp_history)
+        # Append df
+        l_dfs.append(pd.read_csv(pth_tmp_history / filename))
 
-    if df_consolidated_history is not None:
-        df_consolidated_history.to_csv(pth_history, index=False)
+    if l_dfs:
+        df_consolidated_history, df_tmp_history = None, pd.concat(l_dfs)
+        if pth_history.exists():
+            # Merge
+            df_consolidated_history = merge_historical_data(df_tmp_history, pd.read_csv(pth_history))
+        else:
+            df_consolidated_history = merge_historical_data(df_tmp_history, None)
+
+        if df_consolidated_history is not None:
+            df_consolidated_history.to_csv(pth_history, index=False)
+
+    # Clean tick tmp dir
+    clean_tmp_dir(pth_tmp_history, 'history')
+    print('************ history data consolidated *****************')
 
     # Compute consolidated events
-    pth_tmp_event = consolidated_data_path / 'tmp_events.csv'
-    pth_event = consolidated_data_path / 'events.csv'
+    pth_tmp_events = consolidated_data_path / 'tmp_events.csv'
+    pth_events = consolidated_data_path / 'events.csv'
 
-    df_consolidated_event = None
-    if pth_event.exists():
-        if pth_tmp_event.exists():
-            df_consolidated_event = merge_calendar_data(pd.read_csv(pth_tmp_event), pd.read_csv(pth_event))
-            os.remove(pth_tmp_event)
+    # Load all freshly downloaded event data
+    l_dfs = []
+    for filename in os.listdir(pth_tmp_events):
+        if 'events' not in filename:
+            continue
 
-    elif pth_tmp_event.exists():
-        df_consolidated_event = pd.read_csv(pth_tmp_event)
-        os.remove(pth_tmp_event)
+        # Append df
+        l_dfs.append(pd.read_csv(pth_tmp_events / filename))
 
-    if df_consolidated_event is not None:
-        df_consolidated_event.to_csv(pth_event, index=False)
+    if l_dfs:
+        df_consolidated_events, df_tmp_events = None, pd.concat(l_dfs)
+        if pth_events.exists():
+            # Merge
+            df_consolidated_events = merge_calendar_data(df_tmp_events, pd.read_csv(pth_events))
+        else:
+            df_consolidated_events = merge_calendar_data(df_tmp_events, None)
+
+        if df_consolidated_events is not None:
+            df_consolidated_events.to_csv(pth_events, index=False)
+
+    # Clean tick tmp dir
+    clean_tmp_dir(pth_tmp_events, 'events')
+    print('************ event data consolidated *****************')

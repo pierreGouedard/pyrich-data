@@ -12,7 +12,6 @@ sys.path.append(project_path.as_posix())
 
 # Local import
 from src.core.xapi_utils import init_api_client, get_historical_data
-from src.core.xdata_utils import merge_historical_data
 from src.core.dev_utils import set_up_logger
 
 
@@ -68,25 +67,16 @@ if __name__ == '__main__':
     # Disconnect client
     client.disconnect()
 
+    # Log history download failure
+    if not l_data:
+        raise RuntimeError('no history returned')
+
     # Merge symbol's history
     df_history = pd.concat([d for d in l_data])
 
-    # Load existing history dataframe, merge new history
-    if (history_path / 'history.csv').exists():
-        df_prev_history = (
-            pd.read_csv(history_path / 'history.csv')
-            .assign(timestamp=lambda x: pd.to_datetime(x.timestamp, errors='coerce'))
-        )
-    else:
-        df_prev_history = None
-    df_all_history = merge_historical_data(df_history, df_prev_history)
+    # Log history download failure
+    if df_history.empty:
+        raise RuntimeError('no history returned')
 
-    # if backup period is met (oldest data older than today - backup period) save a copy of file with prefix
-    # 'backup_'
-    if not df_all_history.empty:
-        datetime_backup_limit = pd.Timestamp.utcnow().tz_convert(None) - pd.Timedelta(**backup_period)
-        if df_all_history.timestamp.min() < datetime_backup_limit:
-            df_all_history.to_csv(history_path / 'backup_history.csv', index=False)
-            os.remove(history_path / "history.csv")
-        else:
-            df_all_history.to_csv(history_path / 'history.csv', index=False)
+    # Save ticks
+    df_history.to_csv(history_path / f'history_{start_date}.csv', index=False)

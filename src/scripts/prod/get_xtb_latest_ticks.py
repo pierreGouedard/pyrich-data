@@ -12,7 +12,6 @@ sys.path.append(project_path.as_posix())
 
 # Local import
 from src.core.xapi_utils import init_api_client, get_latest_ticks
-from src.core.xdata_utils import merge_tick_data
 from src.core.dev_utils import set_up_logger
 
 
@@ -54,27 +53,14 @@ if __name__ == '__main__':
 
     # Get ticks for all symbols
     df_ticks = get_latest_ticks(l_symbols, level, start_datetime, client, logger)
-
-    if df_ticks is None:
-        logger.error('df_ticks')
     client.disconnect()
 
-    # Load existing history dataframe, merge new history
-    if (tick_path / 'ticks.csv').exists():
-        df_prev_ticks = (
-            pd.read_csv(tick_path / 'ticks.csv')
-            .assign(timestamp=lambda x: pd.to_datetime(x.timestamp, errors='coerce'))
-        )
-    else:
-        df_prev_ticks = None
-    df_all_ticks = merge_tick_data(df_ticks, df_prev_ticks)
+    # Log ticks download failure
+    if df_ticks is None:
+        raise RuntimeError('no history returned')
+    elif df_ticks.empty:
+        raise RuntimeError('no history returned')
 
-    # if backup period is met (oldest data older than today - backup period) save a copy of file with prefix
-    # 'backup_'
-    if not df_all_ticks.empty:
-        datetime_backup_limit = pd.Timestamp.utcnow().tz_convert(None) - pd.Timedelta(**backup_period)
-        if df_all_ticks.timestamp.min() < datetime_backup_limit:
-            df_all_ticks.to_csv(tick_path / 'backup_ticks.csv', index=False)
-            os.remove(tick_path / "ticks.csv")
-        else:
-            df_all_ticks.to_csv(tick_path / 'ticks.csv', index=False)
+    # Save ticks
+    df_ticks.to_csv(tick_path / f'ticks_{start_datetime}.csv', index=False)
+
