@@ -78,7 +78,7 @@ if __name__ == '__main__':
     print('************ history data consolidated *****************')
 
     # Compute consolidated events
-    pth_tmp_events = consolidated_data_path / 'tmp_events.csv'
+    pth_tmp_events = consolidated_data_path / 'tmp_events'
     pth_events = consolidated_data_path / 'events.csv'
 
     # Load all freshly downloaded event data
