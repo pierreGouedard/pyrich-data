@@ -62,7 +62,7 @@ if __name__ == '__main__':
         raise RuntimeError('no history returned')
 
     # Save ticks (new file created hourly)
-    tick_hour_path = tick_path / f'ticks_{start_datetime.floor("D")}.csv'
+    tick_hour_path = tick_path / f'ticks_{start_datetime.floor("h")}.csv'
     if tick_path.exists():
         df_ticks.to_csv(tick_hour_path, index=False, mode='a')
     else:
