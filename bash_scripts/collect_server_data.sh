@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LOCAL_STORE_PATH=~/pyrich-data/data/xtb/consolidated_data
+LOCAL_STORE_PATH=~/pyrich-projects/pyrich-data/data/xtb/consolidated_data
 REMOTE_BACKUP_PATH=/home/ubuntu/pyrich-data/data/xtb
 
 # download backup & consolidate data
