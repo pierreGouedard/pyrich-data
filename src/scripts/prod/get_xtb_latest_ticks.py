@@ -63,9 +63,4 @@ if __name__ == '__main__':
 
     # Save ticks (new file created hourly)
     tick_hour_path = tick_path / f'ticks_{start_datetime.floor("h")}.csv'
-    if tick_path.exists():
-        df_ticks.to_csv(tick_hour_path, index=False, mode='a', header=False)
-    else:
-        df_ticks.to_csv(tick_hour_path, index=False)
-
-
+    df_ticks.to_csv(tick_hour_path, index=False, mode='a', header=False)
